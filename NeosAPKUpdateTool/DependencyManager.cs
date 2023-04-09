@@ -58,6 +58,11 @@ namespace NeosAPKPatchingTool
             bool shouldDL = Console.ReadKey().KeyChar == 'y';
             Console.WriteLine();
             if (shouldDL) DownloadDependencies(missingDeps.ToArray()).Wait();
+            else {
+                Console.WriteLine("Exiting...");
+                Thread.Sleep(3000);
+                Environment.Exit(0);
+            }
         }
 
         public void CheckHasJava()
