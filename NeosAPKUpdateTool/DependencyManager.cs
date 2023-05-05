@@ -6,6 +6,7 @@ using System.Reflection;
 using System.Threading.Tasks;
 using System.Linq;
 using System.Net.Http;
+using NeosAPKPatchingTool.Config;
 
 namespace NeosAPKPatchingTool
 {
@@ -24,19 +25,20 @@ namespace NeosAPKPatchingTool
                 new APKDependency()
                 {
                     Name = "APKTool",
-                    Version = "2.7.0",
+                    Version = "v2.7.0",
                     DownloadURL = "https://github.com/iBotPeaches/Apktool/releases/download/v2.7.0/apktool_2.7.0.jar"
                 },
                 new APKDependency()
                 {
                     Name = "uber-apk-signer",
-                    Version = "1.3.0",
+                    Version = "v1.3.0",
                     DownloadURL = "https://github.com/patrickfav/uber-apk-signer/releases/download/v1.3.0/uber-apk-signer-1.3.0.jar"
                 }
             };
         }
 
-        public void CheckInstalled() {
+        public void CheckInstalled()
+        {
             CheckHasJava();
             List<APKDependency> missingDeps = new List<APKDependency>();
 
@@ -52,11 +54,20 @@ namespace NeosAPKPatchingTool
             Console.WriteLine("You seem to be missing the following dependencies:");
             foreach (var dep in missingDeps)
             {
-                Console.WriteLine("{0}@v{1}\nfrom {2}\n", dep.Name, dep.Version, dep.DownloadURL);
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                Console.WriteLine("{0} (@{1})\nfrom {2}\n", dep.Name, dep.Version, dep.DownloadURL);
+                Console.ForegroundColor = ConsoleColor.Gray;
+
             }
-            Console.WriteLine("Would you like to download these dependencies? (y/n) ");
-            bool shouldDL = Console.ReadKey().KeyChar == 'y';
-            Console.WriteLine();
+
+            bool shouldDL = ConfigManager.Config.AutoDownloadDeps;
+            if (!shouldDL)
+            {
+                Console.WriteLine("Would you like to download these dependencies? (y/n) ");
+                shouldDL = Console.ReadKey().KeyChar == 'y';
+                Console.WriteLine();
+            }
+
             if (shouldDL) DownloadDependencies(missingDeps.ToArray()).Wait();
             else {
                 Console.WriteLine("Exiting...");
