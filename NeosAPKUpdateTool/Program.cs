@@ -44,7 +44,8 @@ namespace NeosAPKPatchingTool
             Console.WriteLine("-h: Display this help message.");
             Console.WriteLine("-f: Automatically download any missing dependencies.");
             Console.WriteLine("-m: Patch the input APK with NeosModLoader.");
-
+            Console.WriteLine("-d: Patch APK with 'debuggable' attribute.\n");
+            Console.WriteLine("--fingers: Patch APK with native finger tracking support.");
         }
         [STAThread]
         static void Main(string[] args)

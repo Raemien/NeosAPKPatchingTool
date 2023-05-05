@@ -1,5 +1,4 @@
-﻿
-namespace NeosAPKPatchingTool.Config
+﻿namespace NeosAPKPatchingTool.Config
 {
     internal class ConfigManager
     {
@@ -18,6 +17,8 @@ namespace NeosAPKPatchingTool.Config
 
             config.InjectModLoader = ParseBool("-m");
             config.AutoDownloadDeps = ParseBool("-f");
+            config.UseHandTracking = ParseBool("--fingers");
+            config.Debuggable = ParseBool("-d");
             return config;
 
         }
@@ -34,6 +35,8 @@ namespace NeosAPKPatchingTool.Config
         public string? DataPath { get; set; }
         public bool InjectModLoader { get; set; }
         public bool AutoDownloadDeps { get; set; }
+        public bool Debuggable { get; set; }
+        public bool UseHandTracking { get; set; }
         public static Configuration Default => new Configuration();
     }
 
