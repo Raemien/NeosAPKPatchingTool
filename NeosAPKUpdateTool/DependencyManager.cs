@@ -89,6 +89,26 @@ namespace NeosAPKPatchingTool
             }
         }
 
+        public void AddModLoaderDeps()
+        {
+            List<APKDependency> modLoaderDeps = new List<APKDependency>()
+            {
+                new APKDependency()
+                {
+                    Name = "NeosModLoader",
+                    Version = "latest",
+                    DownloadURL = "https://github.com/neos-modding-group/NeosModLoader/releases/latest/download/NeosModLoader.dll"
+                },
+                new APKDependency()
+                {
+                    Name = "0Harmony",
+                    Version = "latest",
+                    DownloadURL = "https://github.com/neos-modding-group/NeosModLoader/releases/latest/download/0Harmony.dll"
+                }
+            };
+            _dependencies.AddRange(modLoaderDeps.Except(_dependencies));
+        }
+
         public async Task DownloadDependencies(APKDependency[] dependencies)
         {
             var client = new HttpClient();

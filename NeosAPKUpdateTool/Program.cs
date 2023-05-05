@@ -1,7 +1,5 @@
 ﻿using NeosAPKPatchingTool.Config;
-using System;
 using System.IO;
-using System.Reflection;
 using System.Windows.Forms;
 
 namespace NeosAPKPatchingTool
@@ -71,6 +69,7 @@ namespace NeosAPKPatchingTool
                 Console.WriteLine("\n");
             }
 
+            if (config.InjectModLoader) depchecker.AddModLoaderDeps();
             depchecker.CheckInstalled();
 
             string apkpath = (args.Length > 0) ? args[0] : OpenAPKSelection();
