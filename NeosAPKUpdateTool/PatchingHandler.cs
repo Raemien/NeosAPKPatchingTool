@@ -90,6 +90,10 @@ namespace NeosAPKPatchingTool
                 injector.PatchFroox();
             }
 
+            Console.WriteLine("Patching AndroidManifest...");
+            var patcher = new ManifestPatcher(extract_path);
+            patcher.PatchManifest();
+
             Console.WriteLine("Repacking APK...");
             ExecuteJava("apktool_2.7.0.jar", string.Format(" b \"{0}\" -o \"{0}.apk\"", extract_path));
 
