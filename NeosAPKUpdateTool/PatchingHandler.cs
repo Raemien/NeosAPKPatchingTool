@@ -1,4 +1,6 @@
-﻿using System;
+﻿using NeosAPKPatchingTool.Config;
+using NeosAPKPatchingTool.Modding;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -67,15 +69,25 @@ namespace NeosAPKPatchingTool
             string apk_name = Path.GetFileNameWithoutExtension(APKPath);
             string extract_path = Path.Combine(WorkingPath, apk_name);
             string bin_path = Path.Combine(DataPath, "Managed");
+            string bin_path_apk = Path.Combine(extract_path, "assets/bin/Data/Managed");
 
             foreach (var bin in Directory.GetFiles(bin_path))
             {
                 if (!bin.EndsWith("Assembly-CSharp.dll"))
                 {
                     string bin_name = Path.GetFileName(bin);
-                    string newpath = Path.Combine(extract_path, "assets/bin/Data/Managed/" + bin_name);
+                    string newpath = Path.Combine(bin_path_apk, bin_name);
                     File.Copy(bin, newpath, true);
                 }
+            }
+
+            if (ConfigManager.Config.InjectModLoader)
+            {
+                Console.WriteLine("Injecting NeosModLoader...");
+                string nmlPath = Path.Combine(DependencyManager.DepDirectory, "NeosModLoader.dll");
+                File.Copy(nmlPath, bin_path_apk + "/NeosModLoader.dll", true);
+                var injector = new InjectionHandler(bin_path_apk);
+                injector.PatchFroox();
             }
 
             Console.WriteLine("Repacking APK...");

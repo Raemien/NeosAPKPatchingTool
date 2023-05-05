@@ -1,5 +1,4 @@
 ﻿using NeosAPKPatchingTool.Config;
-using NeosAPKPatchingTool.Modding;
 using System;
 using System.IO;
 using System.Reflection;
@@ -64,6 +63,14 @@ namespace NeosAPKPatchingTool
             Console.WriteLine("-------------------------------------------------------------------------------------\n");
 
             var depchecker = new DependencyManager();
+            var config = ConfigManager.Config;
+
+            if (!config.InjectModLoader) {
+                Console.WriteLine("Would you like to patch your APK with NeosModLoader? (y/n)");
+                config.InjectModLoader = Console.ReadKey().KeyChar == 'y';
+                Console.WriteLine("\n");
+            }
+
             depchecker.CheckInstalled();
 
             string apkpath = (args.Length > 0) ? args[0] : OpenAPKSelection();
