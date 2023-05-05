@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
@@ -16,5 +16,14 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <DebugType>none</DebugType>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Reference Include="BaseX">
+      <HintPath>$(MSBuildThisFileDirectory)\NeosVR\Neos_Data\Managed\BaseX.dll</HintPath>
+    </Reference>
+    <Reference Include="Mono.Cecil">
+      <HintPath>$(MSBuildThisFileDirectory)\NeosVR\Neos_Data\Managed\Mono.Cecil.dll</HintPath>
+    </Reference>
+  </ItemGroup>
 
 </Project>
