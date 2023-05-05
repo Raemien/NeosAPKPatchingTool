@@ -22,7 +22,7 @@ namespace NeosAPKPatchingTool.Modding
             try
             {
                 var config = ConfigManager.Config;
-                if (config.UseHandTracking || true) {
+                if (config.UseHandTracking) {
                     AddFeature("oculus.software.handtracking", false);
                     AddPermission("com.oculus.permission.HAND_TRACKING");
                 }
