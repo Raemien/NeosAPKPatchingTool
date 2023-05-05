@@ -1,4 +1,6 @@
-﻿using System;
+﻿using NeosAPKPatchingTool.Config;
+using NeosAPKPatchingTool.Modding;
+using System;
 using System.IO;
 using System.Reflection;
 using System.Windows.Forms;
@@ -39,9 +41,23 @@ namespace NeosAPKPatchingTool
             }
             return path;
         }
+        static void DisplayHelp()
+        {
+            Console.WriteLine("Usage: NeosAPKPatchingTool.exe \"APKPath\" \"DataPath\" [args]\n");
+            Console.WriteLine("-h: Display this help message.");
+            Console.WriteLine("-f: Automatically download any missing dependencies.");
+            Console.WriteLine("-m: Patch the input APK with NeosModLoader.");
+
+        }
         [STAThread]
         static void Main(string[] args)
         {
+            ConfigManager configManager = new ConfigManager(args);
+            if (configManager.ParseBool("-h")) {
+                DisplayHelp();
+                Environment.Exit(0);
+            }
+
             Console.WriteLine("-------------------------------------------------------------------------------------");
             Console.WriteLine("Welcome! This tool aims to restore functionality to Android releases of NeosVR.\nThe program fixes networking issues that were patched in the PC release of NEOS.\n");
             Console.WriteLine("NOTE: Android releases of Neos are not currently maintained by Solirax.\nThis tool is not officially supported by Solirax and may introduce stability issues.");
