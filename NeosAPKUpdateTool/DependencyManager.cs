@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
+﻿using System.IO;
+using System.IO.Compression;
 using System.Reflection;
-using System.Threading.Tasks;
-using System.Linq;
 using System.Net.Http;
 using NeosAPKPatchingTool.Config;
 
@@ -44,6 +40,11 @@ namespace NeosAPKPatchingTool
 
             foreach (var dep in _dependencies)
             {
+                if (dep.FolderName != null) {
+                    string dirname = Path.Combine(DepDirectory, dep.FolderName);
+                    if (Directory.Exists(dirname)) continue;
+                }
+
                 if (!File.Exists(Path.Combine(DepDirectory, dep.FileName))) {
                     missingDeps.Add(dep);
                 }
@@ -126,9 +127,18 @@ namespace NeosAPKPatchingTool
             {
                 Console.WriteLine("Downloading {0}...", dependency.Name);
                 Stream stream = await client.GetStreamAsync(dependency.DownloadURL);
-                FileStream fileStream = new FileStream(Path.Combine(DepDirectory, dependency.FileName), FileMode.Create);
-                await stream.CopyToAsync(fileStream);
-                await fileStream.FlushAsync();
+
+                if (Path.GetExtension(dependency.DownloadURL) == ".zip")
+                {
+                    new ZipArchive(stream).ExtractToDirectory(DepDirectory);
+                }
+                else
+                {
+                    FileStream fileStream = new FileStream(Path.Combine(DepDirectory, dependency.FileName), FileMode.Create);
+                    await stream.CopyToAsync(fileStream);
+                    await fileStream.FlushAsync();
+                }
+
                 await stream.DisposeAsync();
             }
             catch (Exception ex)
@@ -148,5 +158,6 @@ namespace NeosAPKPatchingTool
         public string Version { get; set; }
         public string DownloadURL { get; set; }
         public string FileName { get => Path.GetFileName(DownloadURL); }
+        public string? FolderName { get; set; }
     }
 }
