@@ -21,9 +21,6 @@
   </PropertyGroup>
 
 	<ItemGroup>
-		<Reference Include="BaseX">
-			<HintPath>$(MSBuildThisFileDirectory)\NeosVR\Neos_Data\Managed\BaseX.dll</HintPath>
-		</Reference>
 		<Reference Include="Mono.Cecil">
 			<HintPath>$(MSBuildThisFileDirectory)\NeosVR\Neos_Data\Managed\Mono.Cecil.dll</HintPath>
 		</Reference>

@@ -1,8 +1,8 @@
 ﻿using System.IO;
 using System.IO.Compression;
-using System.Reflection;
 using System.Net.Http;
 using NeosAPKPatchingTool.Config;
+using System.Diagnostics;
 
 namespace NeosAPKPatchingTool
 {
@@ -13,7 +13,7 @@ namespace NeosAPKPatchingTool
         private List<APKDependency> _dependencies;
         public DependencyManager()
         {
-            MainDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            MainDirectory = Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName);
             DepDirectory = Directory.CreateDirectory(Path.Combine(MainDirectory, "Dependencies")).FullName;
 
             _dependencies = new List<APKDependency>()
