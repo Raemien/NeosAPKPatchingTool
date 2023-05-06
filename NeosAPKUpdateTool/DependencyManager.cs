@@ -29,6 +29,13 @@ namespace NeosAPKPatchingTool
                     Name = "uber-apk-signer",
                     Version = "v1.3.0",
                     DownloadURL = "https://github.com/patrickfav/uber-apk-signer/releases/download/v1.3.0/uber-apk-signer-1.3.0.jar"
+                },
+                new APKDependency()
+                {
+                    Name = "Android ADB",
+                    Version = "latest",
+                    FolderName = "platform-tools",
+                    DownloadURL = "https://dl.google.com/android/repository/platform-tools-latest-windows.zip"
                 }
             };
         }
