@@ -48,6 +48,19 @@ namespace NeosAPKPatchingTool
             return key == 'y';
         }
 
+        // TODO: Remove once the latest release of NML has Android compatibility.
+        static void DisplayNMLNotice()
+        {
+            if (!ConfigManager.Config.InjectModLoader || File.Exists(Path.Combine(DependencyManager.DepDirectory, "NeosModLoader.dll"))) return;
+            Console.WriteLine("\nPlease self-compile NeosModLoader.dll and place it in your Dependencies folder.\nAlternatively, you can download the latest artifact from GitHub Actions.");
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine("https://github.com/neos-modding-group/NeosModLoader/suites/12295795460/artifacts/651545830");
+            Console.ForegroundColor = ConsoleColor.Gray;
+            Console.WriteLine("\nOnce you have everything set up, relaunch this program.");
+            Console.ReadKey();
+            Environment.Exit(0);
+        }
+
         static void DisplayHelp()
         {
             Console.WriteLine("Usage: NeosAPKPatchingTool.exe \"APKPath\" \"DataPath\" [args]\n");
@@ -79,6 +92,9 @@ namespace NeosAPKPatchingTool
                 config.InjectModLoader = PromptUser();
                 Console.WriteLine("\n");
             }
+
+            // TODO: Remove once the latest release of NML has Android compatibility.
+            DisplayNMLNotice();
 
             if (config.InjectModLoader) depchecker.AddModLoaderDeps();
             depchecker.CheckInstalled();
