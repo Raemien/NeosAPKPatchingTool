@@ -1,11 +1,7 @@
 ﻿using NeosAPKPatchingTool.Config;
 using NeosAPKPatchingTool.Modding;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace NeosAPKPatchingTool
 {
@@ -58,6 +54,13 @@ namespace NeosAPKPatchingTool
             }
 
         }
+        private void FinishPatch()
+        {
+            Console.WriteLine("\nDone!");
+            Thread.Sleep(3000);
+            Environment.Exit(0);
+        }
+
         public void PatchAPK()
         {
             Directory.CreateDirectory(WorkingPath);
@@ -81,7 +84,8 @@ namespace NeosAPKPatchingTool
                 }
             }
 
-            if (ConfigManager.Config.InjectModLoader)
+            bool injectmods = ConfigManager.Config.InjectModLoader;
+            if (injectmods)
             {
                 Console.WriteLine("Injecting NeosModLoader...");
                 string nmlPath = Path.Combine(DependencyManager.DepDirectory, "NeosModLoader.dll");
@@ -101,16 +105,28 @@ namespace NeosAPKPatchingTool
             string apk_params = string.Format("--apks \"{0}.apk\"", extract_path);
             ExecuteJava("uber-apk-signer-1.3.0.jar", apk_params);
 
-            string newapk = Path.Combine(OutputPath, apk_name + "-patched.apk");
+            string newapk = Path.Combine(OutputPath, apk_name + "Patched.apk");
             Console.WriteLine("Copying APK to {0}...", newapk);
             File.Copy(extract_path + "-aligned-debugSigned.apk", newapk, true);
 
             Console.WriteLine("Cleaning up...");
             Directory.Delete(WorkingPath, true);
 
-            Console.WriteLine("\nDone!");
-            Thread.Sleep(3000);
-            Environment.Exit(0);
+            if (!ADBConnection.DeviceConnected()) FinishPatch();
+
+            if (injectmods)
+            {
+                string libspath = "sdcard/ModData/com.Solirax.Neos/nml_libs";
+                string harmonypath = Path.Combine(DependencyManager.DepDirectory, "0Harmony.dll");
+
+                Console.WriteLine("Configuring nml_libs directory...");
+                ADBConnection.ExecuteADB("shell mkdir " + libspath);
+                ADBConnection.ExecuteADB(string.Format("push {0} {1}", harmonypath, libspath));
+            }
+
+            Console.WriteLine("Installing to device...");
+            ADBConnection.ExecuteADB("install -r " + newapk);
+            FinishPatch();
         }
     }
 }
