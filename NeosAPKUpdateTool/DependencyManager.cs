@@ -71,8 +71,8 @@ namespace NeosAPKPatchingTool
             bool shouldDL = ConfigManager.Config.AutoDownloadDeps;
             if (!shouldDL)
             {
-                Console.WriteLine("Would you like to download these dependencies? (y/n) ");
-                shouldDL = Console.ReadKey().KeyChar == 'y';
+                Console.WriteLine("Would you like to download these dependencies? (y/n)");
+                shouldDL = Program.PromptUser();
                 Console.WriteLine();
             }
 

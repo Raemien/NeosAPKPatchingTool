@@ -1,6 +1,5 @@
 ﻿using NeosAPKPatchingTool.Config;
 using System.IO;
-using System.Windows.Forms;
 
 namespace NeosAPKPatchingTool
 {
@@ -38,6 +37,17 @@ namespace NeosAPKPatchingTool
             }
             return path;
         }
+
+        public static bool PromptUser()
+        {
+            char key = 'a';
+            while (key != 'y' && key != 'n') {
+                key = Console.ReadKey().KeyChar;
+                Console.CursorLeft = Math.Max(Console.CursorLeft - 1, 0);
+            }
+            return key == 'y';
+        }
+
         static void DisplayHelp()
         {
             Console.WriteLine("Usage: NeosAPKPatchingTool.exe \"APKPath\" \"DataPath\" [args]\n");
@@ -66,7 +76,7 @@ namespace NeosAPKPatchingTool
 
             if (!config.InjectModLoader) {
                 Console.WriteLine("Would you like to patch your APK with NeosModLoader? (y/n)");
-                config.InjectModLoader = Console.ReadKey().KeyChar == 'y';
+                config.InjectModLoader = PromptUser();
                 Console.WriteLine("\n");
             }
 
