@@ -3,6 +3,9 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>net6.0-windows</TargetFramework>
+	<PublishSingleFile>true</PublishSingleFile>
+	<SelfContained>false</SelfContained>
+	<RuntimeIdentifier>win-x86</RuntimeIdentifier>
 	<UseWPF>true</UseWPF>
 	<UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
@@ -17,13 +20,13 @@
     <DebugType>none</DebugType>
   </PropertyGroup>
 
-  <ItemGroup>
-    <Reference Include="BaseX">
-      <HintPath>$(MSBuildThisFileDirectory)\NeosVR\Neos_Data\Managed\BaseX.dll</HintPath>
-    </Reference>
-    <Reference Include="Mono.Cecil">
-      <HintPath>$(MSBuildThisFileDirectory)\NeosVR\Neos_Data\Managed\Mono.Cecil.dll</HintPath>
-    </Reference>
-  </ItemGroup>
+	<ItemGroup>
+		<Reference Include="BaseX">
+			<HintPath>$(MSBuildThisFileDirectory)\NeosVR\Neos_Data\Managed\BaseX.dll</HintPath>
+		</Reference>
+		<Reference Include="Mono.Cecil">
+			<HintPath>$(MSBuildThisFileDirectory)\NeosVR\Neos_Data\Managed\Mono.Cecil.dll</HintPath>
+		</Reference>
+	</ItemGroup>
 
 </Project>
