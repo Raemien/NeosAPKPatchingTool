@@ -131,7 +131,7 @@ namespace NeosAPKPatchingTool
                 string harmonypath = Path.Combine(DependencyManager.DepDirectory, "0Harmony.dll");
 
                 Console.WriteLine("Configuring nml_libs directory...");
-                ADBConnection.ExecuteADB("shell mkdir " + libspath);
+                ADBConnection.ExecuteADB("shell mkdir -p " + libspath);
                 ADBConnection.ExecuteADB(string.Format("push {0} {1}", harmonypath, libspath));
             }
 
