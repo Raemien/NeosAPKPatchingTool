@@ -65,6 +65,11 @@ namespace NeosAPKPatchingTool
         {
             Directory.CreateDirectory(WorkingPath);
 
+            if (ADBConnection.DeviceConnected())
+            {
+                Console.WriteLine("Connected Device: {0}.", ADBConnection.GetDeviceName());
+            }
+
             Console.WriteLine("Unpacking APK...");
             ExecuteJava("apktool_2.7.0.jar", string.Format(" d \"{0}\"", APKPath));
 
@@ -124,7 +129,7 @@ namespace NeosAPKPatchingTool
                 ADBConnection.ExecuteADB(string.Format("push {0} {1}", harmonypath, libspath));
             }
 
-            Console.WriteLine("Installing to device...");
+            Console.WriteLine("Installing to {0}...", ADBConnection.GetDeviceName());
             ADBConnection.ExecuteADB("install -r " + newapk);
             FinishPatch();
         }

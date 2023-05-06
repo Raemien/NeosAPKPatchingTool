@@ -11,6 +11,13 @@ namespace NeosAPKPatchingTool.Modding
             return ExecuteADB("devices -l").Contains("device:");
         }
 
+        public static string GetDeviceName()
+        {
+            string manufacturer = ExecuteADB("shell getprop ro.product.manufacturer");
+            string model = ExecuteADB("shell getprop ro.product.model");
+            return string.Format("{0} {1}", manufacturer, model);
+        }
+
         public static string ExecuteADB(string command = "")
         {
             try
