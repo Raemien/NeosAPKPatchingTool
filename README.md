@@ -1,6 +1,6 @@
 # NeosVR APK Patcher
 
-This CLI tool is designed to modify Android builds of NeosVR - adding new features, fixing annoying bugs and restoring network compatibility with PC users. Uses [APKTool](https://github.com/iBotPeaches/Apktool) and [Uber APK Signer](https://github.com/patrickfav/uber-apk-signer) to extract, patch and sign the application with updated binaries.
+This CLI tool is designed to modify Android builds of NeosVR - adding features, fixing bugs and restoring network compatibility with PC. Uses [APKTool](https://github.com/iBotPeaches/Apktool) and [Uber APK Signer](https://github.com/patrickfav/uber-apk-signer) to extract, patch and sign the application with updated binaries.
 
 Please note that this tool is not officially supported by Solirax and may break after major codebase changes.
 
