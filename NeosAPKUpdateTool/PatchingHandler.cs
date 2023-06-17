@@ -87,12 +87,6 @@ namespace NeosAPKPatchingTool
                     string newpath = Path.Combine(bin_path_apk, bin_name);
                     File.Copy(bin, newpath, true);
                 }
-                if (bin.EndsWith("BaseX.dll"))
-                {
-                    string bin_name = Path.GetFileName(bin);
-                    string newpath = Path.Combine(DependencyManager.MainDirectory, bin_name);
-                    File.Copy(bin, newpath, true);
-                }
             }
 
             bool injectmods = ConfigManager.Config.InjectModLoader;

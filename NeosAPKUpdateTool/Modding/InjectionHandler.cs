@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.IO;
 using Mono.Cecil;
 using Mono.Cecil.Cil;
 using Mono.Collections.Generic;
@@ -76,12 +71,14 @@ namespace NeosAPKPatchingTool.Modding
         public void PatchFroox()
         {
             ModuleDefinition? module = null;
+            string main_dir = Directory.GetCurrentDirectory();
             try
             {
-                string oldpath = Path.Combine(BinDirectory, "FrooxEngine-unmodified.dll");
+                Directory.SetCurrentDirectory(BinDirectory);
+                string frooxbackup = Path.Combine(BinDirectory, "FrooxEngine-unmodified.dll");
                 string newpath = Path.Combine(BinDirectory, "FrooxEngine.dll");
-                File.Copy(newpath, oldpath, true);
-                module = ModuleDefinition.ReadModule(oldpath);
+                File.Copy(newpath, frooxbackup, true);
+                module = ModuleDefinition.ReadModule(frooxbackup);
                 MethodDefinition? initMethod = GetEngineInit(module);
                 if (initMethod == null) throw new Exception("Engine.Initialize async Task does not exist!");
 
@@ -102,7 +99,7 @@ namespace NeosAPKPatchingTool.Modding
 
                 module.Write(newpath);
                 module.Dispose();
-                File.Delete(oldpath);
+                File.Delete(frooxbackup);
             }
             catch (Exception ex)
             {
@@ -112,6 +109,10 @@ namespace NeosAPKPatchingTool.Modding
                 Directory.Delete(PatchingHandler.WorkingPath, true);
                 Environment.Exit(1);
                 throw;
+            }
+            finally
+            {
+                Directory.SetCurrentDirectory(main_dir);
             }
         }
     }
