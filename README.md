@@ -1,6 +1,6 @@
 # NeosVR APK Patcher
 
-This CLI tool aims to restore functionality to Android releases of NeosVR after a recent networking hotfix. Uses [APKTool](https://github.com/iBotPeaches/Apktool) and [Uber APK Signer](https://github.com/patrickfav/uber-apk-signer) to extract, patch and sign the application with updated binaries.
+This CLI tool is designed to modify Android builds of NeosVR - adding new features, fixing annoying bugs and restoring network compatibility with PC users. Uses [APKTool](https://github.com/iBotPeaches/Apktool) and [Uber APK Signer](https://github.com/patrickfav/uber-apk-signer) to extract, patch and sign the application with updated binaries.
 
 Please note that this tool is not officially supported by Solirax and may break after major codebase changes.
 
@@ -8,6 +8,7 @@ Please note that this tool is not officially supported by Solirax and may break 
 - Fully network compatible with users on the latest PC version.
 - Optional out-of-the-box support for NeosModLoader.
 - Enable manifest-level features such as hand-tracking and debugging.
+- Supports both Quest and Touchscreen releases of NeosVR.
 
 ## Requirements
 - The latest PC release of NeosVR (avaliable from [Steam](https://store.steampowered.com/app/740250/Neos_VR/)/Neos Launcher)
