@@ -29,6 +29,7 @@ namespace NeosAPKPatchingTool.Modding
 
                 ModifyApplicationNode("debuggable", config.Debuggable);
                 ModifyApplicationNode("requestLegacyExternalStorage", true);
+                RemoveMetadata("com.samsung.android.vr.application.mode");
 
                 WriteChanges();
             }
@@ -77,6 +78,19 @@ namespace NeosAPKPatchingTool.Modding
             featureNode.Attributes.Append(nameAttr);
             featureNode.Attributes.Append(requiredAttr);
             _doc.DocumentElement.AppendChild(featureNode);
+        }
+
+        private void RemoveMetadata(string name)
+        {
+            XmlNode applicationNode = _doc.DocumentElement.SelectSingleNode("application");
+            XmlNodeList? metaNodes = applicationNode.SelectNodes("meta-data");
+
+            if (metaNodes == null) return;
+            foreach (XmlNode node in metaNodes)
+            {
+                var atrib = node.Attributes["android:name"];
+                if (atrib.Value == name) applicationNode.RemoveChild(node);
+            }
         }
 
         public void WriteChanges()
