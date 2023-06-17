@@ -5,10 +5,11 @@
         public static Configuration Config { get; set; } = Configuration.Default;
 
         private List<string> _args;
-        public ConfigManager(string[] args)
+        public ConfigManager(ref string[] args)
         {
             _args = args.ToList();
             Config = GetConfigFromArguments();
+            args = _args.ToArray();
         }
 
         public Configuration GetConfigFromArguments()

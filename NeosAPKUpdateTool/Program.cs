@@ -73,7 +73,7 @@ namespace NeosAPKPatchingTool
         [STAThread]
         static void Main(string[] args)
         {
-            ConfigManager configManager = new ConfigManager(args);
+            ConfigManager configManager = new ConfigManager(ref args);
             if (configManager.ParseBool("-h")) {
                 DisplayHelp();
                 Environment.Exit(0);
