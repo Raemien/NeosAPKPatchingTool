@@ -34,6 +34,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="Resources\DontOverrideList.txt" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Reference Include="Mono.Cecil">
       <HintPath>$(NeosVRDir)\Neos_Data\Managed\Mono.Cecil.dll</HintPath>
     </Reference>

@@ -2,6 +2,7 @@
 using NeosAPKPatchingTool.Modding;
 using System.Diagnostics;
 using System.IO;
+using System.Reflection;
 
 namespace NeosAPKPatchingTool
 {
@@ -52,8 +53,24 @@ namespace NeosAPKPatchingTool
                 }
                 return false;
             }
-
         }
+
+        private void ReplaceBinaries(string androidPath, string desktopPath)
+        {
+            Assembly assembly = Assembly.GetExecutingAssembly();
+            string exclusionText = new StreamReader(assembly.GetManifestResourceStream("NeosAPKPatchingTool.Resources.DontOverrideList.txt")).ReadToEnd();
+            string[] exclusions = exclusionText.Split("\r\n");
+
+            string[] files = Directory.GetFiles(desktopPath).Except(exclusions).ToArray();
+            foreach (var bin in files)
+            {
+                string binaryName = Path.GetFileName(bin);
+                if (exclusions.Contains(binaryName)) continue;
+                string newPath = Path.Combine(androidPath, binaryName);
+                File.Copy(bin, newPath, true);
+            }
+        }
+
         private void FinishPatch()
         {
             Console.WriteLine("\nDone!");
@@ -79,15 +96,7 @@ namespace NeosAPKPatchingTool
             string bin_path = Path.Combine(DataPath, "Managed");
             string bin_path_apk = Path.Combine(extract_path, "assets/bin/Data/Managed");
 
-            foreach (var bin in Directory.GetFiles(bin_path))
-            {
-                if (!bin.EndsWith("Assembly-CSharp.dll"))
-                {
-                    string bin_name = Path.GetFileName(bin);
-                    string newpath = Path.Combine(bin_path_apk, bin_name);
-                    File.Copy(bin, newpath, true);
-                }
-            }
+            ReplaceBinaries(bin_path_apk, bin_path);
 
             bool injectmods = ConfigManager.Config.InjectModLoader;
             if (injectmods)
