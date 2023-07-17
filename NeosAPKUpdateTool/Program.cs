@@ -1,43 +1,10 @@
-﻿using NeosAPKPatchingTool.Config;
-using System.IO;
+﻿using NeosAPKPatchingTool.CLI;
+using NeosAPKPatchingTool.Config;
 
 namespace NeosAPKPatchingTool
 {
     internal class Program
     {
-        static string OpenAPKSelection()
-        {
-            var dialog = new OpenFileDialog();
-            dialog.DefaultExt = "apk";
-            dialog.Title = string.Format("Please select your NeosOculus.apk file.");
-            dialog.FileName = "NeosOculus.apk";
-            Console.WriteLine(dialog.Title);
-
-            string path = "";
-            if (dialog.ShowDialog() == DialogResult.OK && Path.GetExtension(dialog.FileName) == ".apk") {
-                path = dialog.FileName;
-            }
-            return path;
-        }
-
-        static string OpenFolderSelection()
-        {
-            var dialog = new FolderBrowserDialog();
-            dialog.Description = "Please select the Neos_Data folder from your PC installation.";
-            dialog.UseDescriptionForTitle = true;
-            Console.WriteLine(dialog.Description);
-
-            string path = "";
-            if (dialog.ShowDialog() == DialogResult.OK)
-            {
-                string path_managed = Path.Combine(dialog.SelectedPath, "Managed");
-                if (Directory.Exists(path_managed)) {
-                    path = dialog.SelectedPath;
-                }
-            }
-            return path;
-        }
-
         public static bool PromptUser()
         {
             char key = 'a';
@@ -63,7 +30,7 @@ namespace NeosAPKPatchingTool
 
         static void DisplayHelp()
         {
-            Console.WriteLine("Usage: NeosAPKPatchingTool.exe \"APKPath\" \"DataPath\" [args]\n");
+            Console.WriteLine("Usage: NeosAPKPatchingTool \"APKPath\" \"DataPath\" [args]\n");
             Console.WriteLine("-h: Display this help message.");
             Console.WriteLine("-f: Automatically download any missing dependencies.");
             Console.WriteLine("-m: Patch the input APK with NeosModLoader.");
@@ -99,14 +66,14 @@ namespace NeosAPKPatchingTool
             if (config.InjectModLoader) depchecker.AddModLoaderDeps();
             depchecker.CheckInstalled();
 
-            string apkpath = (args.Length > 0) ? args[0] : OpenAPKSelection();
+            string apkpath = (args.Length > 0) ? args[0] : PromptHandler.OpenAPKSelection();
             if (apkpath == "") {
                 Console.WriteLine("Invalid APK path.");
                 Thread.Sleep(2000);
                 Environment.Exit(1);
             }
 
-            string datapath = (args.Length > 1) ? args[1] : OpenFolderSelection();
+            string datapath = (args.Length > 1) ? args[1] : PromptHandler.OpenFolderSelection();
             if (datapath == "") {
                 Console.WriteLine("Invalid Neos_Data path.");
                 Thread.Sleep(2000);
