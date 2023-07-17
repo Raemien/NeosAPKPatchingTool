@@ -21,7 +21,7 @@ namespace NeosAPKPatchingTool
             if (!ConfigManager.Config.InjectModLoader || File.Exists(Path.Combine(DependencyManager.DepDirectory, "NeosModLoader.dll"))) return;
             Console.WriteLine("\nPlease self-compile NeosModLoader.dll and place it in your Dependencies folder.\nAlternatively, you can download the latest artifact from GitHub Actions.");
             Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.WriteLine("https://github.com/neos-modding-group/NeosModLoader/suites/12295795460/artifacts/651545830");
+            Console.WriteLine("https://github.com/neos-modding-group/NeosModLoader/suites/13045347898/artifacts/707111506");
             Console.ForegroundColor = ConsoleColor.Gray;
             Console.WriteLine("\nOnce you have everything set up, relaunch this program.");
             Console.ReadKey();
