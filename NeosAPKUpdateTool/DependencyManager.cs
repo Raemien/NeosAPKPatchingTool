@@ -11,6 +11,7 @@ namespace NeosAPKPatchingTool
         public static string MainDirectory { get; set; } = string.Empty;
         public static string DepDirectory { get; set; } = string.Empty;
         private List<APKDependency> _dependencies;
+        private const long MIN_STORAGE = 0x60000000L;
         public DependencyManager()
         {
             MainDirectory = Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName);
@@ -58,6 +59,7 @@ namespace NeosAPKPatchingTool
             }
 
             if (missingDeps.Count == 0) return;
+            CheckAvaliableSpace();
 
             Console.WriteLine("You seem to be missing the following dependencies:");
             foreach (var dep in missingDeps)
@@ -92,6 +94,26 @@ namespace NeosAPKPatchingTool
                 Console.WriteLine("ERROR: Java not installed!");
                 Console.ForegroundColor = ConsoleColor.White;
                 Console.WriteLine("This tool requires Java 8+ to extract, build and sign the NeosVR APK.\nPlease install Java to continue.");
+                Thread.Sleep(10000);
+                Environment.Exit(1);
+            }
+        }
+
+        public void CheckAvaliableSpace()
+        {
+            DirectoryInfo info = new DirectoryInfo(DepDirectory);
+            DriveInfo? drive = DriveInfo.GetDrives().Where((DriveInfo disk) => disk.RootDirectory.FullName == info.Root.FullName).FirstOrDefault();
+            if (drive == null) return;
+
+            long after_bytes = drive.AvailableFreeSpace - MIN_STORAGE;
+            //after_bytes -= 22L * 1024 * 1024 * 1024;
+            float over_mb = (float)after_bytes / 1024L / 1024L;
+            if (after_bytes < 0)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("ERROR: An additional {0:0.0}MB of storage is required before patching.", Math.Abs(over_mb));
+                Console.ForegroundColor = ConsoleColor.Gray;
+                Console.WriteLine("You may wish to change this program's working directory or delete some files.");
                 Thread.Sleep(10000);
                 Environment.Exit(1);
             }
