@@ -23,7 +23,7 @@ namespace NeosAPKPatchingTool.Modding
             try
             {
                 ProcessStartInfo adbinfo = new ProcessStartInfo();
-                adbinfo.FileName = "adb.exe";
+                adbinfo.FileName = "adb";
                 adbinfo.WorkingDirectory = ADBPath;
                 adbinfo.Arguments = command;
                 adbinfo.UseShellExecute = false;

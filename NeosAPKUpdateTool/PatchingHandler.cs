@@ -31,7 +31,7 @@ namespace NeosAPKPatchingTool
             try
             {
                 ProcessStartInfo javainfo = new ProcessStartInfo();
-                javainfo.FileName = "java.exe";
+                javainfo.FileName = "java";
                 javainfo.WorkingDirectory = nojar ? "" : WorkingPath;
                 javainfo.Arguments = args;
                 javainfo.UseShellExecute = false;
