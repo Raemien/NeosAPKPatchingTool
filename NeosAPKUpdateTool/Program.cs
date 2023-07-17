@@ -5,44 +5,12 @@ namespace NeosAPKPatchingTool
 {
     internal class Program
     {
-        public static bool PromptUser()
-        {
-            char key = 'a';
-            while (key != 'y' && key != 'n') {
-                key = Console.ReadKey().KeyChar;
-                Console.CursorLeft = Math.Max(Console.CursorLeft - 1, 0);
-            }
-            return key == 'y';
-        }
-
-        // TODO: Remove once the latest release of NML has Android compatibility.
-        static void DisplayNMLNotice()
-        {
-            if (!ConfigManager.Config.InjectModLoader || File.Exists(Path.Combine(DependencyManager.DepDirectory, "NeosModLoader.dll"))) return;
-            Console.WriteLine("\nPlease self-compile NeosModLoader.dll and place it in your Dependencies folder.\nAlternatively, you can download the latest artifact from GitHub Actions.");
-            Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.WriteLine("https://github.com/neos-modding-group/NeosModLoader/suites/13045347898/artifacts/707111506");
-            Console.ForegroundColor = ConsoleColor.Gray;
-            Console.WriteLine("\nOnce you have everything set up, relaunch this program.");
-            Console.ReadKey();
-            Environment.Exit(0);
-        }
-
-        static void DisplayHelp()
-        {
-            Console.WriteLine("Usage: NeosAPKPatchingTool \"APKPath\" \"DataPath\" [args]\n");
-            Console.WriteLine("-h: Display this help message.");
-            Console.WriteLine("-f: Automatically download any missing dependencies.");
-            Console.WriteLine("-m: Patch the input APK with NeosModLoader.");
-            Console.WriteLine("-d: Patch APK with 'debuggable' attribute.\n");
-            Console.WriteLine("--fingers: Patch APK with native finger tracking support.");
-        }
         [STAThread]
         static void Main(string[] args)
         {
             ConfigManager configManager = new ConfigManager(ref args);
             if (configManager.ParseBool("-h")) {
-                DisplayHelp();
+                PromptHandler.DisplayHelp();
                 Environment.Exit(0);
             }
 
@@ -56,12 +24,12 @@ namespace NeosAPKPatchingTool
 
             if (!config.InjectModLoader) {
                 Console.WriteLine("Would you like to patch your APK with NeosModLoader? (y/n)");
-                config.InjectModLoader = PromptUser();
+                config.InjectModLoader = PromptHandler.PromptUser();
                 Console.WriteLine("\n");
             }
 
             // TODO: Remove once the latest release of NML has Android compatibility.
-            DisplayNMLNotice();
+            PromptHandler.DisplayNMLNotice();
 
             if (config.InjectModLoader) depchecker.AddModLoaderDeps();
             depchecker.CheckInstalled();

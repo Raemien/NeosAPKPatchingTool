@@ -3,6 +3,7 @@ using System.IO.Compression;
 using System.Net.Http;
 using NeosAPKPatchingTool.Config;
 using System.Diagnostics;
+using NeosAPKPatchingTool.CLI;
 
 namespace NeosAPKPatchingTool
 {
@@ -74,7 +75,7 @@ namespace NeosAPKPatchingTool
             if (!shouldDL)
             {
                 Console.WriteLine("Would you like to download these dependencies? (y/n)");
-                shouldDL = Program.PromptUser();
+                shouldDL = PromptHandler.PromptUser();
                 Console.WriteLine();
             }
 
