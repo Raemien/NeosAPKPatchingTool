@@ -2,27 +2,27 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-	<RuntimeIdentifiers>win-x86;linux-x64</RuntimeIdentifiers>
+    <RuntimeIdentifiers>win-x86;linux-x64</RuntimeIdentifiers>
     <TargetFrameworks>net6.0;net6.0-windows</TargetFrameworks>
-	<PublishSingleFile>true</PublishSingleFile>
+    <PublishSingleFile>true</PublishSingleFile>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
   
   <PropertyGroup Condition="$(TargetFramework.Contains('-windows')) == true">
     <RuntimeIdentifier>win-x86</RuntimeIdentifier>
-	<SelfContained>false</SelfContained>
-	<UseWPF>true</UseWPF>
-	<UseWindowsForms>true</UseWindowsForms>
+    <SelfContained>false</SelfContained>
+    <UseWPF>true</UseWPF>
+    <UseWindowsForms>true</UseWindowsForms>
   </PropertyGroup>
   
   <PropertyGroup Condition="$(TargetFramework.Contains('-windows')) != true">
     <RuntimeIdentifier>linux-x64</RuntimeIdentifier>
-	<InvariantGlobalization>true</InvariantGlobalization>
-	<SelfContained>true</SelfContained>
-	<PublishTrimmed>true</PublishTrimmed>
-	<UseWindowsForms>false</UseWindowsForms>
-	<UseWPF>false</UseWPF>
+    <InvariantGlobalization>true</InvariantGlobalization>
+    <SelfContained>true</SelfContained>
+    <PublishTrimmed>true</PublishTrimmed>
+    <UseWindowsForms>false</UseWindowsForms>
+    <UseWPF>false</UseWPF>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -33,10 +33,10 @@
     <DebugType>none</DebugType>
   </PropertyGroup>
 
-	<ItemGroup>
-		<Reference Include="Mono.Cecil">
-			<HintPath>$(MSBuildThisFileDirectory)\NeosVR\Neos_Data\Managed\Mono.Cecil.dll</HintPath>
-		</Reference>
-	</ItemGroup>
-
+  <ItemGroup>
+    <Reference Include="Mono.Cecil">
+      <HintPath>$(NeosVRDir)\Neos_Data\Managed\Mono.Cecil.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  
 </Project>
